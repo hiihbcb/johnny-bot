@@ -1,6 +1,6 @@
 //Set prefix
-global.jonnyPrefix = /^!(jonny|\sjonny)/g;
-global.textPrefix = /^!(text|\stext)/g;
+global.jonnyPrefix = /^!(jonny|\sjonny)\s/g;
+global.textPrefix = /^!(text|\stext)\s/g;
 
 class Messages {
     checkPrefix(message) {
@@ -54,34 +54,58 @@ class Messages {
 
     textMessage(message) {
         var quoteMatch = /".*?"/g,
+            wordMatch = /\S*/g,
             command = this.getCommand(message, textPrefix),
-            commandArray,
+            quoteArray,
+            wordString,
+            wordText,
             sendTo,
             sendMessage,
             sender = message.member.nickname,
-            index,
             userNickname,
-            userName;
+            userName,
+            hit = false;
 
-        commandArray = command.match(quoteMatch);
-        if (commandArray == null || commandArray.length != 2) {
-            message.channel.send('Read the fucking help message you fuck');
+        quoteArray = command.match(quoteMatch);
+        wordString = command.match(wordMatch);
+        wordText = command.replace(wordString[0], '');
+
+        if (wordString[0].startsWith('"') && quoteArray.length >= 1) {
+            sendTo = quoteArray[0].replace(/['"]+/g, '');
+            sendMessage = command.replace(quoteArray[0], '').substring(1);
+        } else if (wordString[0] !== null
+            && wordString[0] !== ''
+            && wordText !== null
+            && wordText !== ''
+            && wordText.length >= 2
+        ) {
+            sendTo = wordString[0];
+            sendMessage = command.replace(wordString[0], '').substring(1);
+        } else {
+            message.channel.send('Nothing entered you fuck');
             return false;
         }
-        sendTo = commandArray[0].replace(/['"]+/g, '').toLowerCase();
-        sendMessage = commandArray[1].replace(/['"]+/g, '');
+
+        sendTo = sendTo.toLowerCase();
 
         for (var user in ourUsers) {
             userNickname = ourUsers[user].nickname.toLowerCase();
             userName = ourUsers[user].name.toLowerCase();
             if (sendTo == userNickname || sendTo == userName || sendTo == "group") {
                 this.sendMessage(sender, ourUsers[user], sendMessage);
+                hit = true;
             }
+        }
+        if (hit) {
+            message.react('✅');
+        } else {
+            message.channel.send('Message did not send successfully');
+            message.channel.send('Name was recorded as ' + sendTo);
         }
         return true;
     }
 
-    sendMessage(sender, user, text){
+    sendMessage(sender, user, text) {
         var createMessage = "`" + sender + ": " + text + "`";
         var userChannel = Client.channels.cache.get(user.channel_id);
         userChannel.send(createMessage);

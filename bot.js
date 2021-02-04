@@ -28,7 +28,7 @@ Client.on("message", async message => {
     switch (messages.checkPrefix(message)) {
         case "text" :
             if (!messages.textMessage(message)) {
-                messages.incomming(defineCommand, textPrefix);
+                messages.incomming(message, textPrefix);
             }
             break;
         case "jonny" :
