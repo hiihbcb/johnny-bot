@@ -5,6 +5,7 @@ global.Client = new Discord.Client();
 const config = require('./json_files/auth.json');
 Client.login(config.token);
 
+global.ourUsers = require('./json_files/users.json');
 global.ourChannels = require('./json_files/channels.json');
 
 //Require observer classes
@@ -25,7 +26,12 @@ Client.once('disconnect', () => {
 
 Client.on("message", async message => {
     switch (messages.checkPrefix(message)) {
-        case "marge" :
+        case "text" :
+            if (!messages.textMessage(message)) {
+                messages.incomming(defineCommand, textPrefix);
+            }
+            break;
+        case "jonny" :
             messages.incomming(message);
             break;
         default:
