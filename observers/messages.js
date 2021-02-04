@@ -1,6 +1,6 @@
 //Set prefix
-global.jonnyPrefix = /^!(jonny|\sjonny)\s/g;
-global.textPrefix = /^!(text|\stext)\s/g;
+global.jonnyPrefix = /^!(jonny|\sjonny)(\s|)/g;
+global.textPrefix = /^!(text|\stext)(\s|)/g;
 
 class Messages {
     checkPrefix(message) {
@@ -35,9 +35,9 @@ class Messages {
             if (this.specificSender(message) == 'corpo') {
                 message.channel.send('Go fuck yourself you corpo fuck');
             } else {
-                message.channel.send("God, if I wanted your help, i'd fuck it");
                 message.channel.send('!jonny help');
-                message.channel.send('!text "<tag user>" "<dialogue>"');
+                message.channel.send('!text <player name|character name> <dialogue>');
+                message.channel.send('-    Please use quotations if player/character name has spaces, not required for dialogue');
             }
             break;
         };
