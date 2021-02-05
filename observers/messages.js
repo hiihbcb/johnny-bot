@@ -44,12 +44,14 @@ class Messages {
     }
 
     specificSender(message) {
-        switch (message.member.nickname.toLowerCase()) {
-            case ourUsers.hentai.nickname:
-                return 'corpo';
-            default:
-                return false;
-        };
+        if (message.member.nickname) {
+            switch (message.member.nickname.toLowerCase()) {
+                case ourUsers.hentai.nickname:
+                    return 'corpo';
+                default:
+                    return false;
+            };
+        }
     }
 
     textMessage(message) {
