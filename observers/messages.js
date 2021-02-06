@@ -1,6 +1,11 @@
 //Set prefix
-global.jonnyPrefix = /^!(jonny|\sjonny)(\s|)/g;
-global.textPrefix = /^!(text|\stext)(\s|)/g;
+if (!config.maintenance_mode) {
+    global.jonnyPrefix = /^!(jonny|\sjonny)(\s|)/g;
+    global.textPrefix = /^!(text|\stext)(\s|)/g;
+} else {
+    global.jonnyPrefix = /^!m(jonny|\sjonny)(\s|)/g;
+    global.textPrefix = /^!m(text|\stext)(\s|)/g;
+}
 
 class Messages {
     checkPrefix(message) {

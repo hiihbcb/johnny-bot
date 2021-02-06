@@ -2,8 +2,14 @@
 const Discord = require("discord.js");
 global.Client = new Discord.Client();
 
-const config = require('./json_files/auth.json');
-Client.login(config.token);
+const auth = require('./json_files/auth.json');
+global.config = require('./config.json');
+
+if (!config.maintenance_mode) {
+    Client.login(auth.token);
+} else {
+    Client.login(auth.token_maintenance);
+}
 
 global.ourUsers = require('./json_files/users.json');
 global.ourChannels = require('./json_files/channels.json');
