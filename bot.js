@@ -4,7 +4,6 @@ global.Client = new Discord.Client();
 
 global.config = require('./config.json');
 
-console.log(process.env.BOT_TOKEN);
 if (!config.maintenance_mode) {
     Client.login(process.env.BOT_TOKEN);
 } else {
