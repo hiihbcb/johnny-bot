@@ -1,0 +1,38 @@
+{
+    "benny": {
+        "nickname": "al-hashashin",
+        "id": "273471511921295361",
+        "channel_id": "804056107584061511",
+        "name": "Ben"
+    },
+    "sonofcaveman": {
+        "nickname": "Arms",
+        "id": "253664238738997249",
+        "channel_id": "804056557527891988",
+        "name": "Lee"
+    },
+    "hiihbcb": {
+        "nickname": "DIC",
+        "id": "262230264850284545",
+        "channel_id": "804056087519166494",
+        "name": "Seth"
+    },
+    "hentai": {
+        "nickname": "Jeff",
+        "id": "671373551596732437",
+        "channel_id": "804055517290299414",
+        "name": "Connor"
+    },
+    "hocolatemilk": {
+        "nickname": "Mustang",
+        "id": "709368974001045605",
+        "channel_id": "804055666343280671",
+        "name": "Kieran"
+    },
+    "aman": {
+        "nickname": "Romeo",
+        "id": "289094595583803394",
+        "channel_id": "806334594126577684",
+        "name": "Aman"
+    }
+}
