@@ -1,5 +1,4 @@
 //Set prefix
-
 if (process.env.NODE_ENV == 'production') {
     global.jonnyPrefix = /^!(jonny|\sjonny)(\s|)/g;
     global.textPrefix = /^!(text|\stext)(\s|)/g;
