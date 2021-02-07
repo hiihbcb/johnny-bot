@@ -2,11 +2,9 @@
 const Discord = require("discord.js");
 global.Client = new Discord.Client();
 
-global.config = require('./config.json');
-
-if (!config.maintenance_mode) {
+if (process.env.NODE_ENV == 'production') {
     Client.login(process.env.BOT_TOKEN);
-} else {
+} else if (process.env.NODE_ENV == 'staging') {
     Client.login(process.env.MAINTENANCE_TOKEN);
 }
 

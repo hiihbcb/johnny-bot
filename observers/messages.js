@@ -1,8 +1,9 @@
 //Set prefix
-if (!config.maintenance_mode) {
+
+if (process.env.NODE_ENV == 'production') {
     global.jonnyPrefix = /^!(jonny|\sjonny)(\s|)/g;
     global.textPrefix = /^!(text|\stext)(\s|)/g;
-} else {
+} else if (process.env.NODE_ENV == 'staging') {
     global.jonnyPrefix = /^!m(jonny|\sjonny)(\s|)/g;
     global.textPrefix = /^!m(text|\stext)(\s|)/g;
 }
