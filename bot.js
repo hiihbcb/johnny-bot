@@ -2,13 +2,13 @@
 const Discord = require("discord.js");
 global.Client = new Discord.Client();
 
-const auth = require('./json_files/auth.json');
 global.config = require('./config.json');
 
+console.log(process.env.BOT_TOKEN);
 if (!config.maintenance_mode) {
-    Client.login(auth.token);
+    Client.login(process.env.BOT_TOKEN);
 } else {
-    Client.login(auth.token_maintenance);
+    Client.login(process.env.MAINTENANCE_TOKEN);
 }
 
 global.ourUsers = require('./json_files/users.json');

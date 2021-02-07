@@ -103,8 +103,5 @@ dist
 # TernJS port file
 .tern-port
 
-# Private json files
-json_files/
-
 #Personal
 personal/
