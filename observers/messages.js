@@ -96,7 +96,9 @@ class Messages {
         sendTo = sendTo.toLowerCase();
 
         for (var user in ourUsers) {
-            userNickname = ourUsers[user].nickname.toLowerCase();
+            if (ourUsers[user].nickname != null) {
+                userNickname = ourUsers[user].nickname.toLowerCase();
+            }
             userName = ourUsers[user].name.toLowerCase();
             if (sendTo == userNickname || sendTo == userName || sendTo == "group") {
                 this.sendMessage(sender, ourUsers[user], sendMessage);
