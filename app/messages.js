@@ -49,8 +49,7 @@ class Messages {
         var data,
             sender,
             reciver,
-            content,
-            hit = false;
+            content;
 
         data = await Promise.all([
             database.getSender(message.channel.id),
@@ -68,16 +67,12 @@ class Messages {
             || reciver == null
             || content == null
         ) {
-            message.channel.send("Something doesn't exist, fuck.");
             message.delete();
+            message.channel.send("Something doesn't exist, fuck.");
             return;
         }
 
         if (this.sendMessage(sender, reciver, content)) {
-            hit = true;
-        }
-
-        if (hit) {
             message.react('✅');
         } else {
             message.delete();

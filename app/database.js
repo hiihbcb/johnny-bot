@@ -65,8 +65,6 @@ class Database {
         value = await this.selectQuery("name", "characters", "uniquechannelid=" + channelId);
         if (value !== undefined) {
             return value.name;
-        } else {
-            return "Anonymous";
         }
     }
 
@@ -88,24 +86,16 @@ class Database {
 
         if (data[0] !== undefined) {
             return data[0].uniquechannelid;
-        } else if (data[1] !== undefined) {
+        } else if (data[1] !== undefined && data[1].rows[0] !== undefined) {
             return data[1].rows[0].uniquechannelid;
         }
-        return false;
     }
 
     async selectQuery(columns, table, query) {
         var text = "SELECT " + columns + " FROM " + table + " WHERE " + query,
-            value;
+            value = await this.customQuery(text);
 
-        try {
-            value = await dbClient.query(text)
-        } catch (err) {
-            console.log(err.stack);
-            return false;
-        }
-
-        if (value.rows[0]) {
+        if (value !== undefined) {
             return value.rows[0];
         }
     }
@@ -117,7 +107,6 @@ class Database {
             value = await dbClient.query(query)
         } catch (err) {
             console.log(err.stack);
-            return false;
         }
 
         if (value) {

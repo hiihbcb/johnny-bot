@@ -8,9 +8,6 @@ if (process.env.NODE_ENV == 'production') {
     Client.login(process.env.MAINTENANCE_TOKEN);
 }
 
-global.ourUsers = require('./json_files/users.json');
-global.ourChannels = require('./json_files/channels.json');
-
 //Require observer classes
 const App = require("./app")
 const messages = new App.Messages();
