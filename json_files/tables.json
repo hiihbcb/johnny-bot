@@ -1,31 +1,33 @@
 {
-    "Channels": [
-        "ChannelID int NOT NULL",
-        "ChannelName varchar(255) NOT NULL",
-        "PRIMARY KEY (ChannelID)"
+    "channels": [
+        "channelid bigint NOT NULL",
+        "channelname varchar(255) NOT NULL",
+        "PRIMARY KEY (channelid)"
     ],
-    "Players": [
-        "PlayerID int NOT NULL",
-        "Name varchar(255) NOT NULL",
-        "PRIMARY KEY (PlayerID)"
+    "players": [
+        "playerid bigint NOT NULL",
+        "name varchar(255) NOT NULL",
+        "PRIMARY KEY (playerid)"
     ],
-    "Characters": [
-        "PlayerID int NOT NULL",
-        "CharacterID int NOT NULL",
-        "UniqueChannelID int NOT NULL",
-        "Name varchar(255) NOT NULL",
-        "Eddies decimal(19,2)",
-        "Corpo bool",
+    "characters": [
+        "characterid int NOT NULL",
+        "playerid bigint NOT NULL",
+        "uniquechannelid bigint NOT NULL",
+        "name varchar(255) NOT NULL",
+        "eddies decimal(19,2)",
+        "corpo bool",
         "notes text",
-        "FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID)",
-        "PRIMARY KEY (CharacterID)",
-        "FOREIGN KEY (UniqueChannelID) REFERENCES Channels(ChannelID)"
+        "PRIMARY KEY (characterid)",
+        "FOREIGN KEY (playerid) REFERENCES players(playerid)",
+        "FOREIGN KEY (uniquechannelid) REFERENCES channels(channelid)"
     ],
-    "Aliases": [
-        "PlayerID int NOT NULL",
-        "CharacterID int NOT NULL",
-        "Nickname varchar(255) NOT NULL",
-        "FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID)",
-        "FOREIGN KEY (CharacterID) REFERENCES Characters(CharacterID)"
+    "nicknames": [
+        "nicknameid int NOT NULL",
+        "playerid bigint NOT NULL",
+        "characterid int NOT NULL",
+        "nickname varchar(255) NOT NULL",
+        "PRIMARY KEY (nicknameid)",
+        "FOREIGN KEY (playerid) REFERENCES players(playerid)",
+        "FOREIGN KEY (characterid) REFERENCES characters(characterid)"
     ]
 }
