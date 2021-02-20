@@ -36,7 +36,6 @@ class Database {
         table = this.concatColumn(table, tableColumns);
 
         dbClient.query(table)
-                .then(res => console.log(table))
                 .catch(e => console.error(e.stack));
     }
 
@@ -49,6 +48,81 @@ class Database {
             }
         }
         return text;
+    }
+
+    async getCorpo(sender) {
+        var value = await this.selectQuery("corpo", "characters", "uniquechannelid=" + sender)
+        if (value !== undefined) {
+            return value.corpo;
+        } else {
+            return false;
+        }
+    }
+
+    async getSender(channelId) {
+        var value;
+
+        value = await this.selectQuery("name", "characters", "uniquechannelid=" + channelId);
+        if (value !== undefined) {
+            return value.name;
+        } else {
+            return "Anonymous";
+        }
+    }
+
+    async getReciver(reciverName, senderId) {
+        var name,
+            data,
+            nicknameText;
+
+        nicknameText = "SELECT characters.uniquechannelid FROM characters "
+                     + "INNER JOIN nicknames ON characters.characterid = nicknames.characterid "
+                     + "INNER JOIN players ON nicknames.playerid = players.playerid "
+                     + "WHERE LOWER(nicknames.nickname)=LOWER('"+ reciverName + "') "
+                     + "AND players.playerid="+ senderId + ";";
+
+        data = await Promise.all([
+            this.selectQuery("uniquechannelid", "characters", "LOWER(name)=LOWER('" + reciverName + "')"),
+            this.customQuery(nicknameText)
+        ])
+
+        if (data[0] !== undefined) {
+            return data[0].uniquechannelid;
+        } else if (data[1] !== undefined) {
+            return data[1].rows[0].uniquechannelid;
+        }
+        return false;
+    }
+
+    async selectQuery(columns, table, query) {
+        var text = "SELECT " + columns + " FROM " + table + " WHERE " + query,
+            value;
+
+        try {
+            value = await dbClient.query(text)
+        } catch (err) {
+            console.log(err.stack);
+            return false;
+        }
+
+        if (value.rows[0]) {
+            return value.rows[0];
+        }
+    }
+
+    async customQuery(query) {
+        var value;
+
+        try {
+            value = await dbClient.query(query)
+        } catch (err) {
+            console.log(err.stack);
+            return false;
+        }
+
+        if (value) {
+            return value;
+        }
     }
 }
 

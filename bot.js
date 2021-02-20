@@ -14,7 +14,7 @@ global.ourChannels = require('./json_files/channels.json');
 //Require observer classes
 const App = require("./app")
 const messages = new App.Messages();
-const database = new App.Database();
+global.database = new App.Database();
 
 Client.on("ready", () => {
     database.initializeTables();
@@ -30,17 +30,5 @@ Client.once('disconnect', () => {
 });
 
 Client.on("message", async message => {
-    database.hello(message);
-    switch (messages.checkPrefix(message)) {
-        case "text" :
-            if (!messages.textMessage(message)) {
-                messages.incomming(message, textPrefix);
-            }
-            break;
-        case "jonny" :
-            messages.incomming(message);
-            break;
-        default:
-            break;
-    };
+    messages.newMessage(message);
 });
