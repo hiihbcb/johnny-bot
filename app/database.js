@@ -1,15 +1,17 @@
 // Database connection
 if (process.env.NODE_ENV == 'production') {
-    var databaseUrl = process.env.DATABASE_URL;
+    var databaseUrl = process.env.DATABASE_URL,
+        sslConfig = { rejectUnauthorized: false };
 } else if (process.env.NODE_ENV == 'staging') {
     var databaseUrl = process.env.STAGING_DATABASE_URL;
+        sslConfig = false;
 }
 
 const pg = require('pg').Client;
 
 const dbClient = new pg({
   connectionString: databaseUrl,
-  ssl: { rejectUnauthorized: false }
+  ssl: sslConfig
 });
 dbClient.connect(err => {
   if (err) {
