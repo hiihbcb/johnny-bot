@@ -39,9 +39,8 @@ class Messages {
         if (await database.getCorpo(message.channel.id)) {
             message.channel.send('Go fuck yourself you corpo fuck');
         } else {
-            message.channel.send('!jonny help');
-            message.channel.send('!text <player name|character name> <dialogue>');
-            message.channel.send('-    Please use quotations if player/character name has spaces, not required for dialogue');
+            message.channel.send('!j help');
+            message.channel.send('!j text <player name|character name> <dialogue>');
         }
     }
 
