@@ -8,7 +8,8 @@ if (process.env.NODE_ENV == 'production') {
 const pg = require('pg').Client;
 
 const dbClient = new pg({
-  connectionString: databaseUrl
+  connectionString: databaseUrl,
+  ssl: true
 });
 dbClient.connect(err => {
   if (err) {
