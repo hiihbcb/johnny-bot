@@ -9,7 +9,7 @@ const pg = require('pg').Client;
 
 const dbClient = new pg({
   connectionString: databaseUrl,
-  ssl: true
+  ssl: { rejectUnauthorized: false }
 });
 dbClient.connect(err => {
   if (err) {
