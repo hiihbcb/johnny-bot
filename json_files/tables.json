@@ -1,0 +1,31 @@
+{
+    "Channels": [
+        "ChannelID int NOT NULL",
+        "ChannelName varchar(255) NOT NULL",
+        "PRIMARY KEY (ChannelID)"
+    ],
+    "Players": [
+        "PlayerID int NOT NULL",
+        "Name varchar(255) NOT NULL",
+        "PRIMARY KEY (PlayerID)"
+    ],
+    "Characters": [
+        "PlayerID int NOT NULL",
+        "CharacterID int NOT NULL",
+        "UniqueChannelID int NOT NULL",
+        "Name varchar(255) NOT NULL",
+        "Eddies decimal(19,2)",
+        "Corpo bool",
+        "notes text",
+        "FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID)",
+        "PRIMARY KEY (CharacterID)",
+        "FOREIGN KEY (UniqueChannelID) REFERENCES Channels(ChannelID)"
+    ],
+    "Aliases": [
+        "PlayerID int NOT NULL",
+        "CharacterID int NOT NULL",
+        "Nickname varchar(255) NOT NULL",
+        "FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID)",
+        "FOREIGN KEY (CharacterID) REFERENCES Characters(CharacterID)"
+    ]
+}

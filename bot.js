@@ -17,6 +17,7 @@ const messages = new App.Messages();
 const database = new App.Database();
 
 Client.on("ready", () => {
+    database.initializeTables();
     console.log("I am ready!");
 });
 
