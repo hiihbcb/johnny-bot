@@ -1,4 +1,6 @@
 # Jonny-Silverhand
+This is a cyberpunk Red Discord bot, that currently allows for
+Sending 'text' messages to other channels based off a character name.
 
 ## Build Instructions.
 1. Clone this to any directory.
