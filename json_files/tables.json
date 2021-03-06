@@ -10,7 +10,7 @@
         "PRIMARY KEY (playerid)"
     ],
     "characters": [
-        "characterid int NOT NULL",
+        "characterid SERIAL",
         "playerid bigint NOT NULL",
         "uniquechannelid bigint NOT NULL",
         "name varchar(255) NOT NULL",
@@ -22,7 +22,7 @@
         "FOREIGN KEY (uniquechannelid) REFERENCES channels(channelid)"
     ],
     "nicknames": [
-        "nicknameid int NOT NULL",
+        "nicknameid SERIAL",
         "playerid bigint NOT NULL",
         "characterid int NOT NULL",
         "nickname varchar(255) NOT NULL",

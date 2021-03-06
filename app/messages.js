@@ -5,32 +5,40 @@ if (process.env.NODE_ENV == 'production') {
     var prefix = "!mj";
 }
 
-var message,
-    command;
-
 class Messages {
     newMessage(message) {
         if (!message.author.bot && message.content.startsWith(prefix)) {
-            this.message = message;
-            this.filterCommand();
+            this.filterCommand(message);
         }
     }
 
-    filterCommand() {
-        var wordMatch = /\S*/g;
-        this.command = this.message.content.match(wordMatch).filter(item => item != '');
+    filterCommand(message) {
+        var wordMatch = /\S*/g,
+            command = message.content.match(wordMatch).filter(item => item != '');
 
-        switch(this.command[1]) {
+        switch(command[1]) {
+            case "rm":
+                this.findRemove(message, command);
+            break;
             case "nickname":
+                this.nicknameCommand(message, command);
             break;
             case "text":
-                this.textCommand(this.message, this.command);
+                this.textCommand(message, command);
             break;
             case "transfer":
             break;
             case "help":
             default:
-                this.helpCommand(this.message);
+                this.helpCommand(message);
+            break;
+        }
+    }
+
+    findRemove(message, command) {
+        switch(command[2]) {
+            case "nickname":
+                this.removeNickname(message, command);
             break;
         }
     }
@@ -40,7 +48,12 @@ class Messages {
             message.channel.send('Go fuck yourself you corpo fuck');
         } else {
             message.channel.send('!j help');
-            message.channel.send('!j text <player name|character name> <dialogue>');
+            message.channel.send('!j nickname <character name> <nickname>');
+            message.channel.send('-    adds a nickname used for the text command');
+            message.channel.send('!j rm nickname <nickname>');
+            message.channel.send('-    removes nickname');
+            message.channel.send('!j text <nickname|character name> <dialogue>');
+            message.channel.send('-    texts a character from your character');
         }
     }
 
@@ -52,7 +65,7 @@ class Messages {
 
         data = await Promise.all([
             database.getSender(message.channel.id),
-            database.getReciver(command[2], message.member.id)
+            database.getCharacterChannelId(command[2], message.member.id)
         ])
 
         sender = data[0];
@@ -76,6 +89,48 @@ class Messages {
         } else {
             message.delete();
             message.channel.send('Message did not send successfully');
+        }
+    }
+
+    async nicknameCommand(message, command) {
+        var nickname = command[3],
+            sender = message.member.id,
+            result;
+
+        result = await new Promise(function(resolve, reject) {
+            resolve(database.checkNicknameExists(nickname, sender));
+        }).then(function(result) {
+            if (!result) {
+                 return database.getCharacterId(command[2]);
+             } else {
+                message.channel.send('Nickname already exists');
+                return false;
+             }
+        }).then(function(result){
+            if (result !== undefined && result !== false) {
+                 return database.addNickname(nickname, sender, result);
+             } else if (result === undefined) {
+                message.channel.send('Character does not exist');
+                return false;
+             }
+        })
+
+        if (result) {
+            message.react('✅');
+        }
+    }
+
+    async removeNickname(message, command) {
+        var nickname = command[3],
+            sender = message.member.id,
+            result;
+
+        result = await database.deleteNickname(nickname, sender);
+
+        if (result) {
+            message.react('✅');
+        } else {
+            message.channel.send('Nickname does not exist to remove');
         }
     }
 
