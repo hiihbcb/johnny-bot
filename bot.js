@@ -8,14 +8,13 @@ if (process.env.NODE_ENV == 'production') {
     Client.login(process.env.MAINTENANCE_TOKEN);
 }
 
-global.ourUsers = require('./json_files/users.json');
-global.ourChannels = require('./json_files/channels.json');
-
 //Require observer classes
-const Observers = require("./observers")
-const messages = new Observers.Messages();
+const App = require("./app")
+const messages = new App.Messages();
+global.database = new App.Database();
 
 Client.on("ready", () => {
+    database.initializeTables();
     console.log("I am ready!");
 });
 
@@ -28,16 +27,5 @@ Client.once('disconnect', () => {
 });
 
 Client.on("message", async message => {
-    switch (messages.checkPrefix(message)) {
-        case "text" :
-            if (!messages.textMessage(message)) {
-                messages.incomming(message, textPrefix);
-            }
-            break;
-        case "jonny" :
-            messages.incomming(message);
-            break;
-        default:
-            break;
-    };
+    messages.newMessage(message);
 });
