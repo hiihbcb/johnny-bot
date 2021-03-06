@@ -51,7 +51,7 @@ class Database {
     }
 
     async getCorpo(sender) {
-        var value = await this.selectQuery("corpo", "characters", "uniquechannelid=" + sender)
+        var value = await this.selectQuery("characters", "uniquechannelid=" + sender, "corpo")
         if (value !== undefined) {
             return value.corpo;
         } else {
@@ -62,7 +62,7 @@ class Database {
     async getSender(channelId) {
         var value;
 
-        value = await this.selectQuery("name", "characters", "uniquechannelid=" + channelId);
+        value = await this.selectQuery("characters", "uniquechannelid=" + channelId, "name");
         if (value !== undefined) {
             return value.name;
         }
@@ -80,7 +80,7 @@ class Database {
                      + "AND players.playerid="+ senderId + ";";
 
         data = await Promise.all([
-            this.selectQuery("uniquechannelid", "characters", "LOWER(name)=LOWER('" + reciverName + "')"),
+            this.selectQuery("characters", "LOWER(name)=LOWER('" + reciverName + "')", "uniquechannelid"),
             this.customQuery(nicknameText)
         ])
 
@@ -94,7 +94,7 @@ class Database {
     async getCharacterId(characterName) {
         var value;
 
-        value = await this.selectQuery("characterid", "characters", "LOWER(name)=LOWER('" + characterName + "')");
+        value = await this.selectQuery("characters", "LOWER(name)=LOWER('" + characterName + "')", "characterid");
         if (value !== undefined) {
             return value.characterid;
         }
@@ -120,7 +120,7 @@ class Database {
         var value,
             query = "LOWER(nickname)=LOWER('" + nickname + "') AND playerid=" + playerId;
 
-        value = await this.selectCountQuery("nicknames", query);
+        value = await this.selectQuery("nicknames", query);
         if (value !== undefined) {
             return true;
         } else {
@@ -128,21 +128,28 @@ class Database {
         }
     }
 
+    async deleteNickname(nickname, playerId) {
+        var table = "nicknames",
+            query = "LOWER(nickname)=LOWER('" + nickname + "') AND playerid=" + playerId,
+            returning = " RETURNING *",
+            result;
+
+        result = await this.deleteRow(table, query);
+
+        return !!result.rowCount;
+    }
+
+    async deleteRow(table, query, returning = '') {
+        var text = "DELETE FROM " + table + " WHERE " + query + returning + ";";
+        return this.customQuery(text);
+    }
+
     async insertInto(table, columns, values, output = '') {
         var text = "INSERT INTO " + table + "(" + columns + ") VALUES(" + values + ")" + output +";";
         return this.customQuery(text);
     }
 
-    async selectCountQuery(table, query, count = 1) {
-        var text = "SELECT " + count + " FROM " + table + " WHERE " + query,
-            value = await this.customQuery(text);
-
-        if (value !== undefined) {
-            return value.rows[0];
-        }
-    }
-
-    async selectQuery(columns, table, query) {
+    async selectQuery(table, query, columns = 1) {
         var text = "SELECT " + columns + " FROM " + table + " WHERE " + query,
             value = await this.customQuery(text);
 
