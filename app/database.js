@@ -68,7 +68,7 @@ class Database {
         }
     }
 
-    async getReciver(reciverName, senderId) {
+    async getCharacterChannelId(reciverName, senderId) {
         var name,
             data,
             nicknameText;
@@ -88,6 +88,57 @@ class Database {
             return data[0].uniquechannelid;
         } else if (data[1] !== undefined && data[1].rows[0] !== undefined) {
             return data[1].rows[0].uniquechannelid;
+        }
+    }
+
+    async getCharacterId(characterName) {
+        var value;
+
+        value = await this.selectQuery("characterid", "characters", "LOWER(name)=LOWER('" + characterName + "')");
+        if (value !== undefined) {
+            return value.characterid;
+        }
+    }
+
+    async addNickname(nickname, playerId, characterId) {
+        var table = "nicknames",
+            columns = "playerid,characterid,nickname",
+            output = " RETURNING nicknameid",
+            values,
+            result;
+
+        nickname = "'" + nickname + "'";
+        values = [playerId, characterId, nickname].join();
+
+        result = await this.insertInto(table, columns, values, output);
+        if (result) {
+            return true;
+        }
+    }
+
+    async checkNicknameExists(nickname, playerId) {
+        var value,
+            query = "LOWER(nickname)=LOWER('" + nickname + "') AND playerid=" + playerId;
+
+        value = await this.selectCountQuery("nicknames", query);
+        if (value !== undefined) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    async insertInto(table, columns, values, output = '') {
+        var text = "INSERT INTO " + table + "(" + columns + ") VALUES(" + values + ")" + output +";";
+        return this.customQuery(text);
+    }
+
+    async selectCountQuery(table, query, count = 1) {
+        var text = "SELECT " + count + " FROM " + table + " WHERE " + query,
+            value = await this.customQuery(text);
+
+        if (value !== undefined) {
+            return value.rows[0];
         }
     }
 
