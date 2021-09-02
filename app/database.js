@@ -59,6 +59,10 @@ class Database {
         }
     }
 
+    async getAllNames() {
+        return await this.selectQuery("channels", "channelname IS NOT NULL", "channelname", true);
+    }
+
     async getSender(channelId) {
         var value;
 
@@ -149,12 +153,16 @@ class Database {
         return this.customQuery(text);
     }
 
-    async selectQuery(table, query, columns = 1) {
+    async selectQuery(table, query, columns = 1, returnArray = false) {
         var text = "SELECT " + columns + " FROM " + table + " WHERE " + query,
             value = await this.customQuery(text);
 
         if (value !== undefined) {
-            return value.rows[0];
+            if (returnArray) {
+                return value.rows;
+            } else {
+                return value.rows[0];
+            }
         }
     }
 

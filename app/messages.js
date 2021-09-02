@@ -26,7 +26,8 @@ class Messages {
             case "text":
                 this.textCommand(message, command);
             break;
-            case "transfer":
+            case "list":
+                this.listCommand(message);
             break;
             case "help":
             default:
@@ -54,6 +55,15 @@ class Messages {
             message.channel.send('-    removes nickname');
             message.channel.send('!j text <nickname|character name> <dialogue>');
             message.channel.send('-    texts a character from your character');
+            message.channel.send('!j list');
+            message.channel.send('-    lists all avalible characters');
+        }
+    }
+
+    async listCommand(message) {
+        var avalibleCharacters = await database.getAllNames();
+        for (let i = 0; i < avalibleCharacters.length; i++) {
+            message.channel.send(avalibleCharacters[i].channelname);
         }
     }
 
