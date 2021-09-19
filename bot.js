@@ -8,8 +8,10 @@ global.client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 if (process.env.NODE_ENV == 'production') {
     client.login(process.env.BOT_TOKEN);
+    global.prefix = "";
 } else if (process.env.NODE_ENV == 'staging') {
     client.login(process.env.MAINTENANCE_TOKEN);
+    global.prefix = "mm";
 }
 
 //Require observer classes
@@ -35,10 +37,10 @@ client.on("interactionCreate", async interaction  => {
     const { commandName } = interaction;
 
     switch(commandName) {
-        case "help":
+        case prefix + "help":
             messages.helpCommand(interaction);
         break;
-        case "text":
+        case prefix + "text":
             messages.textCommand(interaction);
         break;
     }

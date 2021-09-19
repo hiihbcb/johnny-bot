@@ -2,6 +2,8 @@
 * @Author HIIHBCB
 */
 
+const { MessageEmbed } = require('discord.js');
+
 class Messages {
     async helpCommand(interaction) {
         if (await database.getCorpo(interaction.channel.id)) {
@@ -19,7 +21,8 @@ class Messages {
     async textCommand(interaction) {
         var sender = await database.getSender(interaction.channel.id),
             reciver = await database.getCharacterChannelId(interaction.options.getString('character-name')),
-            content = interaction.options.getString('message');
+            content = interaction.options.getString('message'),
+            payment = interaction.options.getInteger('payment');
 
         if (
             sender == null || reciver == null || content == null
@@ -28,18 +31,25 @@ class Messages {
             return;
         }
 
-        content = "`" + sender + ": " + content + "`";
-
-        if (this.sendMessage(reciver, content)) {
+        if (this.sendMessage(interaction, reciver, sender, payment, content)) {
             await interaction.reply('Sent ' + content + ' to ' + interaction.options.getString('character-name'));
         } else {
             await interaction.reply({ content: "Could not send: " + content, ephemeral: true });
         }
     }
 
-    sendMessage(reciver, text) {
-        var userChannel = client.channels.cache.get(reciver);
-        return userChannel.send(text);
+    sendMessage(interaction, reciver, sender, payment, text) {
+        var userChannel = client.channels.cache.get(reciver),
+            embedMessage = new MessageEmbed().setColor('#FF0000')
+                                             .setTitle(text)
+                                             .setAuthor(sender, interaction.user.avatarURL())
+                                             .setTimestamp();
+
+        if (payment !== null) {
+            embedMessage.setDescription("Received: " + payment.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "eb");
+        }
+
+        return userChannel.send({ embeds: [embedMessage] });
     }
 }
 
