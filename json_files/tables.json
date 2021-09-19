@@ -1,9 +1,4 @@
 {
-    "channels": [
-        "channelid bigint NOT NULL",
-        "channelname varchar(255) NOT NULL",
-        "PRIMARY KEY (channelid)"
-    ],
     "players": [
         "playerid bigint NOT NULL",
         "name varchar(255) NOT NULL",
@@ -18,16 +13,6 @@
         "corpo bool",
         "notes text",
         "PRIMARY KEY (characterid)",
-        "FOREIGN KEY (playerid) REFERENCES players(playerid)",
-        "FOREIGN KEY (uniquechannelid) REFERENCES channels(channelid)"
-    ],
-    "nicknames": [
-        "nicknameid SERIAL",
-        "playerid bigint NOT NULL",
-        "characterid int NOT NULL",
-        "nickname varchar(255) NOT NULL",
-        "PRIMARY KEY (nicknameid)",
-        "FOREIGN KEY (playerid) REFERENCES players(playerid)",
-        "FOREIGN KEY (characterid) REFERENCES characters(characterid)"
+        "FOREIGN KEY (playerid) REFERENCES players(playerid)"
     ]
 }

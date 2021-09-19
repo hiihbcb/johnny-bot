@@ -1,3 +1,7 @@
+/**
+* @Author HIIHBCB
+*/
+
 // Database connection
 if (process.env.NODE_ENV == 'production') {
     var databaseUrl = process.env.DATABASE_URL,
@@ -59,10 +63,6 @@ class Database {
         }
     }
 
-    async getAllNames() {
-        return await this.selectQuery("channels", "channelname IS NOT NULL", "channelname", true);
-    }
-
     async getSender(channelId) {
         var value;
 
@@ -72,75 +72,13 @@ class Database {
         }
     }
 
-    async getCharacterChannelId(reciverName, senderId) {
-        var name,
-            data,
-            nicknameText;
-
-        nicknameText = "SELECT characters.uniquechannelid FROM characters "
-                     + "INNER JOIN nicknames ON characters.characterid = nicknames.characterid "
-                     + "INNER JOIN players ON nicknames.playerid = players.playerid "
-                     + "WHERE LOWER(nicknames.nickname)=LOWER('"+ reciverName + "') "
-                     + "AND players.playerid="+ senderId + ";";
-
-        data = await Promise.all([
-            this.selectQuery("characters", "LOWER(name)=LOWER('" + reciverName + "')", "uniquechannelid"),
-            this.customQuery(nicknameText)
-        ])
-
-        if (data[0] !== undefined) {
-            return data[0].uniquechannelid;
-        } else if (data[1] !== undefined && data[1].rows[0] !== undefined) {
-            return data[1].rows[0].uniquechannelid;
-        }
-    }
-
-    async getCharacterId(characterName) {
+    async getCharacterChannelId(reciverName) {
         var value;
 
-        value = await this.selectQuery("characters", "LOWER(name)=LOWER('" + characterName + "')", "characterid");
+        value = await this.selectQuery("characters", "LOWER(name)=LOWER('" + reciverName + "')", "uniquechannelid");
         if (value !== undefined) {
-            return value.characterid;
+            return value.uniquechannelid;
         }
-    }
-
-    async addNickname(nickname, playerId, characterId) {
-        var table = "nicknames",
-            columns = "playerid,characterid,nickname",
-            output = " RETURNING nicknameid",
-            values,
-            result;
-
-        nickname = "'" + nickname + "'";
-        values = [playerId, characterId, nickname].join();
-
-        result = await this.insertInto(table, columns, values, output);
-        if (result) {
-            return true;
-        }
-    }
-
-    async checkNicknameExists(nickname, playerId) {
-        var value,
-            query = "LOWER(nickname)=LOWER('" + nickname + "') AND playerid=" + playerId;
-
-        value = await this.selectQuery("nicknames", query);
-        if (value !== undefined) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    async deleteNickname(nickname, playerId) {
-        var table = "nicknames",
-            query = "LOWER(nickname)=LOWER('" + nickname + "') AND playerid=" + playerId,
-            returning = " RETURNING *",
-            result;
-
-        result = await this.deleteRow(table, query);
-
-        return !!result.rowCount;
     }
 
     async deleteRow(table, query, returning = '') {
