@@ -43,5 +43,8 @@ client.on("interactionCreate", async interaction  => {
         case prefix + "text":
             messages.textCommand(interaction);
         break;
+        case prefix + "quote":
+            messages.quoteCommand(interaction);
+        break;
     }
 });

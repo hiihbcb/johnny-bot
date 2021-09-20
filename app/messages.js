@@ -38,6 +38,13 @@ class Messages {
         }
     }
 
+    async quoteCommand(interaction) {
+        let quotes = await database.getQuotes(),
+            randomNumber = Math.floor(Math.random() * quotes.length);
+
+        interaction.reply(quotes[randomNumber].quote);
+    }
+
     sendMessage(interaction, reciver, sender, payment, text) {
         var userChannel = client.channels.cache.get(reciver),
             embedMessage = new MessageEmbed().setColor('#FF0000')

@@ -81,6 +81,15 @@ class Database {
         }
     }
 
+    async getQuotes() {
+        var value;
+
+        value = await this.customQuery("SELECT quote FROM quotes");
+        if (value !== undefined) {
+            return value.rows;
+        }
+    }
+
     async deleteRow(table, query, returning = '') {
         var text = "DELETE FROM " + table + " WHERE " + query + returning + ";";
         return this.customQuery(text);

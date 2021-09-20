@@ -14,5 +14,9 @@
         "notes text",
         "PRIMARY KEY (characterid)",
         "FOREIGN KEY (playerid) REFERENCES players(playerid)"
+    ],
+    "quotes": [
+        "quoteid SERIAL",
+        "quote varchar(255) NOT NULL"
     ]
 }

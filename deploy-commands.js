@@ -17,6 +17,8 @@ function createCommands(test = '') {
   var commands = [
       new SlashCommandBuilder().setName(test + 'help')
                                .setDescription('Get some fuckin\' help'),
+      new SlashCommandBuilder().setName(test + 'quote')
+                               .setDescription('Get a fuckin\' quote from the man himself, me.'),
       new SlashCommandBuilder().setName(test + 'text')
                                .setDescription('Message some fuckin\' choomba')
                                .addStringOption(option =>
