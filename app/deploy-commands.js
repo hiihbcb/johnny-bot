@@ -2,16 +2,31 @@
 * @Author HIIHBCB
 */
 
-const dotenv = require('dotenv');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
-dotenv.config();
-
-sendApi(process.env.BOT_TOKEN, process.env.BOT_CLIENT_ID, process.env.GUILD_ID, createCommands());
-
-sendApi(process.env.MAINTENANCE_TOKEN, process.env.MAINTENANCE_CLIENT_ID, process.env.GUILD_ID, createCommands('mm'));
+if (process.env.NODE_ENV == 'production') {
+  sendApi(
+    process.env.BOT_TOKEN,
+    process.env.BOT_CLIENT_ID,
+    process.env.GUILD_ID,
+    createCommands()
+  );
+  sendApi(
+    process.env.MAINTENANCE_TOKEN,
+    process.env.MAINTENANCE_CLIENT_ID,
+    process.env.GUILD_ID,
+    []
+  );
+} else if (process.env.NODE_ENV == 'staging') {
+  sendApi(
+    process.env.MAINTENANCE_TOKEN,
+    process.env.MAINTENANCE_CLIENT_ID,
+    process.env.GUILD_ID,
+    createCommands('mm')
+  );
+}
 
 function createCommands(test = '') {
   var commands = [

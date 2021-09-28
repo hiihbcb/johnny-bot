@@ -3,6 +3,7 @@
 */
 
 //Require Bot Dependencies
+
 const { Client, Intents } = require('discord.js');
 global.client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -13,6 +14,8 @@ if (process.env.NODE_ENV == 'production') {
     client.login(process.env.MAINTENANCE_TOKEN);
     global.prefix = "mm";
 }
+
+require("./app/deploy-commands")
 
 //Require observer classes
 const App = require("./app")

@@ -11,8 +11,11 @@ class Messages {
         } else {
             let message = 'help';
 
-            message += '\n\/text <character name> <dialogue>' +
+            message += '\n\/text <character name> <dialogue> {payment}' +
                        '\n-    texts a character from your character';
+
+            message += '\n\/quote' +
+                       '\n-    gets a quote from the man himself, me';
 
             await interaction.reply(message);
         }
