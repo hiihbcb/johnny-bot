@@ -67,12 +67,12 @@ class Database {
         return await this.selectQuery("characters", "name IS NOT NULL", "name, frontname", true);
     }
 
-    async getSender(channelId) {
+    async getChannelCharacterName(channelId) {
         var value;
 
-        value = await this.selectQuery("characters", "uniquechannelid=" + channelId, "name");
+        value = await this.selectQuery("characters", "uniquechannelid=" + channelId, "frontname");
         if (value !== undefined) {
-            return value.name;
+            return value.frontname;
         }
     }
 

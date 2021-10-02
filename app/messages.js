@@ -28,7 +28,7 @@ class Messages {
     }
 
     async textCommand(interaction) {
-        var sender = await database.getSender(interaction.channel.id),
+        var sender = await database.getChannelCharacterName(interaction.channel.id),
             reciver = await database.getCharacterChannelId(interaction.options.getString('character-name')),
             content = interaction.options.getString('message'),
             payment = interaction.options.getInteger('payment');
@@ -48,7 +48,7 @@ class Messages {
 
         if (payment != null) {
             var userChannel = client.channels.cache.get(reciver),
-                reciverName = await database.getSender(interaction.channel.id),
+                reciverName = await database.getChannelCharacterName(userChannel.id),
 
                 senderBalance = await database.getBalance(interaction.channel.id),
                 sendernewBalance = Number(senderBalance) - Number(payment),
@@ -87,14 +87,14 @@ class Messages {
 
     async balanceCommand(interaction) {
         let balance = await database.getBalance(interaction.channel.id),
-            sender = await database.getSender(interaction.channel.id);
+            sender = await database.getChannelCharacterName(interaction.channel.id);
 
         this.sendBalance(interaction, balance, sender);
     }
 
     async updateBalanceCommand(interaction) {
         let balance = await database.getBalance(interaction.channel.id),
-            sender = await database.getSender(interaction.channel.id),
+            sender = await database.getChannelCharacterName(interaction.channel.id),
             option = interaction.options.getString('option'),
             total = interaction.options.getInteger('total');
 
