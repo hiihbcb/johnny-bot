@@ -5,25 +5,25 @@
 // Database connection
 if (process.env.NODE_ENV == 'production') {
     var databaseUrl = process.env.DATABASE_URL,
-        sslConfig = { rejectUnauthorized: false };
+    sslConfig = { rejectUnauthorized: false };
 } else if (process.env.NODE_ENV == 'staging') {
     var databaseUrl = process.env.STAGING_DATABASE_URL;
-        sslConfig = false;
+    sslConfig = false;
 }
 
 const pg = require('pg').Client;
 
 const dbClient = new pg({
-  connectionString: databaseUrl,
-  ssl: sslConfig
+    connectionString: databaseUrl,
+    ssl: sslConfig
 });
 
 dbClient.connect(err => {
-  if (err) {
-    console.error('connection error', err.stack)
-  } else {
-    console.log('Database connected')
-  }
+    if (err) {
+        console.error('connection error', err.stack)
+    } else {
+        console.log('Database connected')
+    }
 });
 
 const tableList = require('../json_files/tables.json');
@@ -61,6 +61,10 @@ class Database {
         } else {
             return false;
         }
+    }
+
+    async getAllNames() {
+        return await this.selectQuery("characters", "name IS NOT NULL", "name, frontname", true);
     }
 
     async getSender(channelId) {

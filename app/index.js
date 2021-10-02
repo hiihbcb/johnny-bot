@@ -1,4 +1,5 @@
 module.exports = {
     Messages: require('./messages'),
-    Database: require('./database')
+    Database: require('./database'),
+    DeployCommands: require('./deploy-commands')
 }

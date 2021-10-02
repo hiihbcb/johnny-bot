@@ -15,15 +15,15 @@ if (process.env.NODE_ENV == 'production') {
     global.prefix = "mm";
 }
 
-require("./app/deploy-commands")
-
 //Require observer classes
 const App = require("./app")
 const messages = new App.Messages();
 global.database = new App.Database();
+const deployCommands = new App.DeployCommands();
 
 client.on("ready", () => {
     database.initializeTables();
+    deployCommands.execute();
     console.log("I am ready!");
 });
 

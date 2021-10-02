@@ -9,6 +9,7 @@
         "playerid bigint NOT NULL",
         "uniquechannelid bigint NOT NULL",
         "name varchar(255) NOT NULL",
+        "frontname varchar(255) NOT NULL",
         "eddies decimal(19,2)",
         "corpo bool",
         "notes text",
