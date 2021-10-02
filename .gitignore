@@ -1,3 +1,6 @@
+# @Author HIIHBCB
+# @License AGPL-3.0-or-later
+
 # Logs
 logs
 *.log
@@ -108,3 +111,6 @@ personal/
 
 #DBdump
 latest.dump
+
+#Adminbro
+.adminbro

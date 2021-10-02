@@ -1,5 +1,6 @@
 /**
 * @Author HIIHBCB
+* @License AGPL-3.0-or-later
 */
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
@@ -11,13 +12,13 @@ class DeployCommands {
         if (process.env.NODE_ENV == 'production') {
             let commands = await this.createCommands();
 
-            this.sendApi(
+            await this.sendApi(
                 process.env.BOT_TOKEN,
                 process.env.BOT_CLIENT_ID,
                 process.env.GUILD_ID,
                 commands
             );
-            this.sendApi(
+            await this.sendApi(
                 process.env.MAINTENANCE_TOKEN,
                 process.env.MAINTENANCE_CLIENT_ID,
                 process.env.GUILD_ID,
@@ -26,7 +27,7 @@ class DeployCommands {
         } else if (process.env.NODE_ENV == 'staging') {
             let commands = await this.createCommands('mm');
 
-            this.sendApi(
+            await this.sendApi(
                 process.env.MAINTENANCE_TOKEN,
                 process.env.MAINTENANCE_CLIENT_ID,
                 process.env.GUILD_ID,
@@ -98,10 +99,10 @@ class DeployCommands {
         return commands;
     }
 
-    sendApi(token, clientId, guildId, commands) {
+    async sendApi(token, clientId, guildId, commands) {
         var rest = new REST({ version: '9' }).setToken(token);
 
-        (async () => {
+        await (async () => {
             try {
                 await rest.put(
                     Routes.applicationGuildCommands(clientId, guildId),

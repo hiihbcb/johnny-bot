@@ -1,59 +1,19 @@
 /**
 * @Author HIIHBCB
+* @License AGPL-3.0-or-later
 */
 
 // Database connection
 if (process.env.NODE_ENV == 'production') {
-    var databaseUrl = process.env.DATABASE_URL,
-    sslConfig = { rejectUnauthorized: false };
+    var databaseUrl = process.env.DATABASE_URL;
 } else if (process.env.NODE_ENV == 'staging') {
     var databaseUrl = process.env.STAGING_DATABASE_URL;
-    sslConfig = false;
 }
 
-const pg = require('pg').Client;
-
-const dbClient = new pg({
-    connectionString: databaseUrl,
-    ssl: sslConfig
-});
-
-dbClient.connect(err => {
-    if (err) {
-        console.error('connection error', err.stack)
-    } else {
-        console.log('Database connected')
-    }
-});
-
-const tableList = require('../json_files/tables.json');
+const { Sequelize } = require('sequelize');
+const sequelize = new Sequelize(databaseUrl, {logging:false});
 
 class Database {
-    initializeTables() {
-        for (var table in tableList) {
-            this.generateTable(table, tableList[table]);
-        }
-    }
-
-    generateTable(tableName, tableColumns) {
-        var table = "CREATE TABLE IF NOT EXISTS " + tableName + " (";
-        table = this.concatColumn(table, tableColumns);
-
-        dbClient.query(table)
-                .catch(e => console.error(e.stack));
-    }
-
-    concatColumn(text, values, endOfLine = ");", seperator = ", ") {
-        for (var value in values) {
-            if (value == values.length - 1) {
-                text += values[value] + endOfLine;
-            } else {
-                text += values[value] + seperator;
-            }
-        }
-        return text;
-    }
-
     async getCorpo(sender) {
         var value = await this.selectQuery("characters", "uniquechannelid=" + sender, "corpo")
         if (value !== undefined) {
@@ -90,7 +50,7 @@ class Database {
 
         value = await this.customQuery("SELECT quote FROM quotes");
         if (value !== undefined) {
-            return value.rows;
+            return value;
         }
     }
 
@@ -124,9 +84,9 @@ class Database {
 
         if (value !== undefined) {
             if (returnArray) {
-                return value.rows;
+                return value;
             } else {
-                return value.rows[0];
+                return value[0];
             }
         }
     }
@@ -137,10 +97,11 @@ class Database {
     }
 
     async customQuery(query) {
-        var value;
+        var value,
+            metadata;
 
         try {
-            value = await dbClient.query(query)
+            [value, metadata] = await sequelize.query(query)
         } catch (err) {
             console.log(err.stack);
         }

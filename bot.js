@@ -1,5 +1,6 @@
 /**
 * @Author HIIHBCB
+* @License AGPL-3.0-or-later
 */
 
 //Require Bot Dependencies
@@ -20,11 +21,12 @@ const App = require("./app")
 const messages = new App.Messages();
 global.database = new App.Database();
 const deployCommands = new App.DeployCommands();
+const models = new App.Models();
 
-client.on("ready", () => {
-    database.initializeTables();
-    deployCommands.execute();
-    console.log("I am ready!");
+client.on("ready", async () => {
+    await models.initializeTables();
+    await deployCommands.execute();
+    console.log("Bot is ready.");
 });
 
 client.once('reconnecting', () => {

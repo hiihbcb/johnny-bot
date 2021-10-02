@@ -1,5 +1,6 @@
 /**
 * @Author HIIHBCB
+* @License AGPL-3.0-or-later
 */
 
 const { MessageEmbed } = require('discord.js');
