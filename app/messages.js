@@ -117,12 +117,12 @@ class Messages {
 
     sendBalance(interaction, balance, owner, oldBalance = null, sendChannel = null) {
         let embedMessage = new MessageEmbed().setColor('#FFF820')
-                                     .setTitle('Balance: ' + balance + 'eb')
+                                     .setTitle('Balance: ' + balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + 'eb')
                                      .setAuthor('Account Owner: ' + owner)
                                      .setTimestamp();
 
         if (oldBalance !== null) {
-            embedMessage.setDescription('Old Balance: ' + oldBalance + 'eb' );
+            embedMessage.setDescription('Old Balance: ' + oldBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + 'eb' );
         }
 
         if (sendChannel == null) {
