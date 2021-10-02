@@ -94,6 +94,20 @@ class Database {
         }
     }
 
+    async getBalance(channelId) {
+        var value;
+
+        value = await this.selectQuery("characters", "uniquechannelid=" + channelId, "eddies");
+        if (value !== undefined) {
+            return value.eddies;
+        }
+    }
+
+    async updateBalance(channelId, Balance) {
+        await this.updateField("characters", "uniquechannelid=" + channelId, "eddies=" + Balance);
+    }
+
+
     async deleteRow(table, query, returning = '') {
         var text = "DELETE FROM " + table + " WHERE " + query + returning + ";";
         return this.customQuery(text);
@@ -115,6 +129,11 @@ class Database {
                 return value.rows[0];
             }
         }
+    }
+
+    async updateField(table, query, columns) {
+        var text = "UPDATE " + table + " SET " + columns + " WHERE " + query;
+        this.customQuery(text);
     }
 
     async customQuery(query) {

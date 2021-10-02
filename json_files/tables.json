@@ -10,7 +10,7 @@
         "uniquechannelid bigint NOT NULL",
         "name varchar(255) NOT NULL",
         "frontname varchar(255) NOT NULL",
-        "eddies decimal(19,2)",
+        "eddies bigint",
         "corpo bool",
         "notes text",
         "PRIMARY KEY (characterid)",

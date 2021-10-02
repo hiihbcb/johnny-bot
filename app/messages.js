@@ -34,11 +34,42 @@ class Messages {
             return;
         }
 
-        if (this.sendMessage(interaction, reciver, sender, payment, content)) {
+        if (this.sendMessage(interaction, reciver, sender, content, payment)) {
             await interaction.reply('Sent ' + content + ' to ' + interaction.options.getString('character-name'));
         } else {
             await interaction.reply({ content: "Could not send: " + content, ephemeral: true });
         }
+
+        if (payment != null) {
+            var userChannel = client.channels.cache.get(reciver),
+                reciverName = await database.getSender(interaction.channel.id),
+
+                senderBalance = await database.getBalance(interaction.channel.id),
+                sendernewBalance = Number(senderBalance) - Number(payment),
+
+                reciverBalance = await database.getBalance(userChannel.id),
+                reciverNewBalance = Number(reciverBalance) + Number(payment);
+
+            await database.updateBalance(interaction.channel.id, sendernewBalance);
+            await database.updateBalance(userChannel.id, reciverNewBalance);
+
+            this.sendBalance(interaction, sendernewBalance, sender, senderBalance, interaction.channel);
+            this.sendBalance(interaction, reciverNewBalance, reciverName, reciverBalance, userChannel);
+        }
+    }
+
+    sendMessage(interaction, reciver, sender, text, payment) {
+        var userChannel = client.channels.cache.get(reciver),
+            embedMessage = new MessageEmbed().setColor('#FF0000')
+                                             .setTitle(text)
+                                             .setAuthor(sender, interaction.user.avatarURL())
+                                             .setTimestamp();
+
+        if (payment != null) {
+            embedMessage.setDescription('Received: ' + payment + 'eb' );
+        }
+
+        return userChannel.send({ embeds: [embedMessage] });
     }
 
     async quoteCommand(interaction) {
@@ -48,18 +79,48 @@ class Messages {
         interaction.reply(quotes[randomNumber].quote);
     }
 
-    sendMessage(interaction, reciver, sender, payment, text) {
-        var userChannel = client.channels.cache.get(reciver),
-            embedMessage = new MessageEmbed().setColor('#FF0000')
-                                             .setTitle(text)
-                                             .setAuthor(sender, interaction.user.avatarURL())
-                                             .setTimestamp();
+    async balanceCommand(interaction) {
+        let balance = await database.getBalance(interaction.channel.id),
+            sender = await database.getSender(interaction.channel.id);
 
-        if (payment !== null) {
-            embedMessage.setDescription("Received: " + payment.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "eb");
+        this.sendBalance(interaction, balance, sender);
+    }
+
+    async updateBalanceCommand(interaction) {
+        let balance = await database.getBalance(interaction.channel.id),
+            sender = await database.getSender(interaction.channel.id),
+            option = interaction.options.getString('option'),
+            total = interaction.options.getInteger('total');
+
+        switch(option) {
+            case 'add':
+                var newBalance = Number(balance) + Number(total);
+            break;
+            case 'remove':
+                var newBalance = Number(balance) - Number(total);
+            break;
         }
 
-        return userChannel.send({ embeds: [embedMessage] });
+        await database.updateBalance(interaction.channel.id, newBalance);
+
+        this.sendBalance(interaction, newBalance, sender, balance);
+    }
+
+    sendBalance(interaction, balance, owner, oldBalance = null, sendChannel = null) {
+        let embedMessage = new MessageEmbed().setColor('#FFF820')
+                                     .setTitle('Balance: ' + balance + 'eb')
+                                     .setAuthor('Account Owner: ' + owner)
+                                     .setTimestamp();
+
+        if (oldBalance !== null) {
+            embedMessage.setDescription('Old Balance: ' + oldBalance + 'eb' );
+        }
+
+        if (sendChannel == null) {
+            interaction.reply({ embeds: [embedMessage] });
+        } else {
+            sendChannel.send({ embeds: [embedMessage] });
+        }
     }
 }
 

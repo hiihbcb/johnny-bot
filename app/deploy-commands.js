@@ -62,16 +62,36 @@ class DeployCommands {
                                                 option.setName('payment')
                                                       .setDescription('If you wanna send some hard-earned eddies')
                                                       .setRequired(false)
-                                                )
+                                                );
 
         for (let i = 0; i < avalibleCharacters.length; i++) {
             text.options[0].addChoice(avalibleCharacters[i].frontname, avalibleCharacters[i].name);
         }
 
+        let balance = new SlashCommandBuilder().setName(test + 'balance')
+                                    .setDescription('View your fuckin\' eddies');
+
+        let eddies = new SlashCommandBuilder().setName(test + 'update-balance')
+                                            .setDescription('add or remove some fuckin\' eddies')
+                                            .addStringOption(option =>
+                                                option.setName('option')
+                                                      .setDescription('Add or remove eddies')
+                                                      .setRequired(true)
+                                                      .addChoice('Add', 'add')
+                                                      .addChoice('Remove', 'remove')
+                                                )
+                                            .addIntegerOption(option =>
+                                                option.setName('total')
+                                                      .setDescription('Amount you wanna add/remove')
+                                                      .setRequired(true)
+                                                );
+
         var commands = [
         help,
         quote,
-        text
+        text,
+        balance,
+        eddies
         ].map(command => command.toJSON());
 
         return commands;

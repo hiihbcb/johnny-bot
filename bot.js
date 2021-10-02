@@ -49,5 +49,11 @@ client.on("interactionCreate", async interaction  => {
         case prefix + "quote":
             messages.quoteCommand(interaction);
         break;
+        case prefix + "balance":
+            messages.balanceCommand(interaction);
+        break;
+        case prefix + "update-balance":
+            messages.updateBalanceCommand(interaction);
+        break;
     }
 });
