@@ -17,6 +17,12 @@ class Messages {
             message += '\n\/quote' +
                        '\n-    gets a quote from the man himself, me';
 
+            message += '\n\/balance' +
+                       '\n-    get your eddie balance, to see how much debt you can pay off to the fucking corps';
+
+            message += '\n\/update-balance' +
+                       '\n-    update your eddie balance, to either pay off the corps or add more money to the bank to pay them off with';
+
             await interaction.reply(message);
         }
     }
@@ -98,6 +104,9 @@ class Messages {
             break;
             case 'remove':
                 var newBalance = Number(balance) - Number(total);
+            break;
+            case 'set':
+                var newBalance = Number(total);
             break;
         }
 

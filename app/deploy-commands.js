@@ -79,6 +79,7 @@ class DeployCommands {
                                                       .setRequired(true)
                                                       .addChoice('Add', 'add')
                                                       .addChoice('Remove', 'remove')
+                                                      .addChoice('Set', 'set')
                                                 )
                                             .addIntegerOption(option =>
                                                 option.setName('total')
