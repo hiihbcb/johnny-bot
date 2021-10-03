@@ -4,14 +4,12 @@
 */
 
 // Database connection
-if (process.env.NODE_ENV == 'production') {
-    var databaseUrl = process.env.DATABASE_URL;
-} else if (process.env.NODE_ENV == 'staging') {
-    var databaseUrl = process.env.STAGING_DATABASE_URL;
-}
-
-const { Sequelize } = require('sequelize');
-const sequelize = new Sequelize(databaseUrl, {logging:false});
+const {
+    sequelize,
+    character,
+    player,
+    quote
+} = require('../database/models');
 
 class Database {
     async getCorpo(sender) {
