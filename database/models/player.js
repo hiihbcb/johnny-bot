@@ -24,6 +24,13 @@ module.exports = (sequelize, DataTypes) => {
         }, name: {
             type: DataTypes.STRING,
             allowNull: false
+        }, encryptedPassword: {
+            type: DataTypes.STRING,
+            required: true
+        }, admin: {
+            type: DataTypes.BOOLEAN,
+            required: true,
+            defaultValue: false
         }
     }, {
         sequelize,
