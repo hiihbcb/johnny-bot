@@ -62,6 +62,11 @@ class DeployCommands {
                                                 option.setName('payment')
                                                       .setDescription('If you wanna send some hard-earned eddies')
                                                       .setRequired(false)
+                                                )
+                                            .addStringOption(option =>
+                                                option.setName('alias')
+                                                      .setDescription('Pretend to be someone else')
+                                                      .setRequired(false)
                                                 );
 
         for (let i = 0; i < avalibleCharacters.length; i++) {

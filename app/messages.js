@@ -31,7 +31,8 @@ class Messages {
         var sender = await database.getChannelCharacterName(interaction.channel.id),
             reciver = await database.getCharacterChannelId(interaction.options.getString('character-name')),
             content = interaction.options.getString('message'),
-            payment = interaction.options.getInteger('payment');
+            payment = interaction.options.getInteger('payment'),
+            alias = interaction.options.getString('alias');
 
         if (
             sender == null || reciver == null || content == null
@@ -40,8 +41,9 @@ class Messages {
             return;
         }
 
-        if (this.sendMessage(interaction, reciver, sender, content, payment)) {
-            await interaction.reply('Sent ' + content + ' to ' + interaction.options.getString('character-name'));
+        if (this.sendMessage(interaction, reciver, sender, content, payment, alias)) {
+            if (alias) { alias = " as " + alias; }
+            await interaction.reply('Sent ' + content + ' to ' + interaction.options.getString('character-name') + alias);
         } else {
             await interaction.reply({ content: "Could not send: " + content, ephemeral: true });
         }
@@ -64,12 +66,15 @@ class Messages {
         }
     }
 
-    sendMessage(interaction, reciver, sender, text, payment) {
+    sendMessage(interaction, reciver, sender, text, payment, alias) {
         var userChannel = client.channels.cache.get(reciver),
             embedMessage = new MessageEmbed().setColor('#FF0000')
                                              .setTitle(text)
                                              .setAuthor(sender, interaction.user.avatarURL())
                                              .setTimestamp();
+        if (alias) {
+            embedMessage.setAuthor(alias);
+        }
 
         if (payment != null) {
             embedMessage.setDescription('Received: ' + payment + 'eb' );
