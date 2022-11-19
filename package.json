@@ -16,19 +16,21 @@
     "lint": "next lint --dir ."
   },
   "dependencies": {
-    "eslint": "8.27.0",
-    "eslint-config-next": "13.0.3",
-    "next": "13.0.3",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "@discordjs/builders": "^0.6.0",
     "@discordjs/rest": "^0.1.0-canary.0",
     "discord-api-types": "^0.23.1",
     "discord.js": "^13.1.0",
+    "eslint": "8.27.0",
+    "eslint-config-next": "13.0.3",
     "next": "^13.0.3",
-    "pg": "^8.7.1"
+    "pg": "^8.7.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "engines": {
     "node": "16.x"
+  },
+  "devDependencies": {
+    "sass": "^1.56.1"
   }
 }

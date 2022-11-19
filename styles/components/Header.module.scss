@@ -1,0 +1,134 @@
+@import "../mixins";
+
+.head {
+    width: 100%;
+    background: $black;
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    top: 0;
+
+    .logo {
+        font-family: 'Cyberpunk', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        font-size: 72px;
+        margin-left: 5%;
+        padding: .5rem 0;
+        color: $red;
+
+        @include breakpoint(desktop) {
+            font-size: 62px;
+        }
+
+        @include breakpoint(laptop) {
+            font-size: 52px;
+        }
+
+        &:hover {
+            color: $lemon;
+        }
+    }
+
+    .desktop {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        margin-right: 5%;
+
+        @include breakpoint(tablet) {
+            display: none;
+        }
+
+        .item {
+            font-size: 30px;
+            text-transform: uppercase;
+            padding: 1rem;
+            margin: 0 .5rem;
+            color: $red;
+
+            @include breakpoint(tv) {
+                font-size: 25px;
+                margin: 0;
+            }
+
+            @include breakpoint(desktop) {
+                font-size: 20px;
+                padding: .5rem;
+            }
+
+            @include breakpoint(laptop) {
+                padding: .3rem;
+            }
+
+            &:hover {
+                color: $lemon;
+            }
+        }
+    }
+
+    .mobile {
+        display: none;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        margin-right: 5%;
+
+        @include breakpoint(tablet) {
+            display: flex;
+        }
+
+        .button {
+            font-size: 35px;
+            text-transform: uppercase;
+            color: $red;
+
+            &:hover {
+                color: $lemon;
+            }
+        }
+    }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: $black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .mlogo {
+        font-family: 'Cyberpunk', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        font-size: 92px;
+        color: $red;
+        margin-top: 1rem;
+    }
+
+    .mobilemenu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .item {
+            font-size: 30px;
+            text-transform: uppercase;
+            padding: .8rem;
+            color: $red;
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    .mclose {
+        font-size: 20px;
+        text-transform: uppercase;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        color: $red;
+    }
+}

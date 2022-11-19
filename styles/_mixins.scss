@@ -1,0 +1,26 @@
+//BREAKPOINTS
+$breakpoints: (
+  mobile: 480px,
+  tablet: 720px,
+  laptop: 960px,
+  desktop: 1200px,
+  tv: 1600px
+);
+@mixin breakpoint($name) {
+  @if not map-has-key($breakpoints, $name) {
+    @warn "Warning: `#{$name}` is not a valid breakpoint name.";
+  } @else {
+    @media (max-width: map-get($breakpoints, $name)) {
+      @content;
+    }
+  }
+}
+
+//COLOURS
+$white: white;
+$black: black;
+$lemon: #FFEB0B;
+$bright-turquoise: #25E1ED;
+$razzmatazz: #ED1E79;
+$sunset-orange: #FF4A57;
+$red: red;
