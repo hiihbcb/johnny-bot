@@ -12,12 +12,52 @@
         "frontname varchar(255) NOT NULL",
         "eddies bigint",
         "corpo bool",
-        "notes text",
+        "notes varchar",
         "PRIMARY KEY (characterid)",
         "FOREIGN KEY (playerid) REFERENCES players(playerid)"
     ],
     "quotes": [
         "quoteid SERIAL",
         "quote varchar(255) NOT NULL"
+    ],
+    "categories": [
+        "categoryid SERIAL",
+        "name varchar(255) NOT NULL",
+        "sort bigint NOT NULL",
+        "PRIMARY KEY (categoryid)"
+    ],
+    "corps": [
+        "corpid SERIAL",
+        "name varchar(255) NOT NULL",
+        "PRIMARY KEY (corpid)"
+    ],
+    "products": [
+        "productid SERIAL",
+        "name varchar(255) NOT NULL",
+        "category bigint NOT NULL",
+        "corp bigint NOT NULL",
+        "requirements varchar(255)",
+        "short_desc varchar(255)",
+        "description varchar",
+        "cost bigint NOT NULL",
+        "subscription_cost bigint",
+        "w_skill varchar(255)",
+        "w_damage varchar(255)",
+        "w_magazine varchar(255)",
+        "w_rof varchar(255)",
+        "w_hands varchar(255)",
+        "w_concealed varchar(255)",
+        "a_sp varchar(255)",
+        "a_ceal varchar(255)",
+        "c_install varchar(255)",
+        "c_humanity varchar(255)",
+        "n_per varchar(255)",
+        "n_spd varchar(255)",
+        "n_atk varchar(255)",
+        "n_def varchar(255)",
+        "n_rez varchar(255)",
+        "PRIMARY KEY (productid)",
+        "FOREIGN KEY (category) REFERENCES categories(categoryid)",
+        "FOREIGN KEY (corp) REFERENCES corps(corpid)"
     ]
 }

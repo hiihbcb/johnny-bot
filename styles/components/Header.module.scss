@@ -2,10 +2,11 @@
 
 .head {
     width: 100%;
+    height: 80px;
     background: $black;
     display: flex;
     flex-direction: row;
-    position: fixed;
+    position: sticky;
     top: 0;
 
     .logo {
@@ -14,14 +15,8 @@
         margin-left: 5%;
         padding: .5rem 0;
         color: $red;
-
-        @include breakpoint(desktop) {
-            font-size: 62px;
-        }
-
-        @include breakpoint(laptop) {
-            font-size: 52px;
-        }
+        display: flex;
+        align-items: center;
 
         &:hover {
             color: $lemon;
@@ -80,7 +75,7 @@
         }
 
         .button {
-            font-size: 35px;
+            font-size: 40px;
             text-transform: uppercase;
             color: $red;
 

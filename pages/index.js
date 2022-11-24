@@ -12,9 +12,7 @@ export default function Home() {
         <meta name="description" content="Homepage of the Cyberpunk red nightmarket set in the 2377 universe of Serpents eye" />
       </Head>
 
-      <main style={{ backgroundImage: `url(${bg.src})` }} className={styles.background} >
-
-      </main>
+      <main style={{ backgroundImage: `url(${bg.src})` }} className={styles.background} />
     </div>
   )
 }
