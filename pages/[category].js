@@ -1,4 +1,4 @@
-import { getCategories, getProducts } from '../lib/web/database'
+import { getProducts } from '../lib/web/apis'
 import styles from '../styles/pages/Category.module.scss'
 import { useRouter } from 'next/router'
 
@@ -17,20 +17,7 @@ export default function Category({ products }) {
   )
 }
 
-export async function getStaticPaths() {
-  let data = await getCategories()
-
-  return {
-    paths: data.map( item => {
-      return {
-        params: {category: item.name}
-      }
-    }),
-    fallback: false,
-  }
-}
-
-export async function getStaticProps(context) {
+export async function getServerSideProps({ req, res }) {
   let data = await getProducts()
   return {
     props: { products: data},
