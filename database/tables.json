@@ -56,6 +56,10 @@
         "n_atk varchar(255)",
         "n_def varchar(255)",
         "n_rez varchar(255)",
+        "v_sdp varchar(255)",
+        "v_sp varchar(255)",
+        "v_move varchar(255)",
+        "v_stats varchar(255)",
         "PRIMARY KEY (productid)",
         "FOREIGN KEY (category) REFERENCES categories(categoryid)",
         "FOREIGN KEY (corp) REFERENCES corps(corpid)"

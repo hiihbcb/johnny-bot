@@ -1,7 +1,8 @@
 @import "../mixins";
 
 .background {
-    position: absolute;
+    background-color: $black;
+    position: fixed;
     z-index: -1;
     width: 100%;
     background-position: center; /* Center the image */
@@ -10,8 +11,46 @@
     overflow: auto;
     top: calc(0px + 80px);
     bottom: 0;
+}
+
+.products {
+    z-index: 2;
+    display: flex;
+    margin: 50px auto 0px auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 80%;
 
     .product {
-        background-color: $red;
+        border-left: 6px solid $red;
+        background-color: transparent;
+        margin: 20px 5px;
+        flex: 1 1 350px;
+
+        .name {
+            background: $red;
+            margin: 0 20px;
+            font-size: 25px;
+            padding: 3px 10px;
+            border-radius: 3px;
+
+            p {
+                margin: 0;
+                margin-top: 2px;
+                text-transform: uppercase;
+                text-align: middle;
+            }
+        }
+
+        .data {
+            background: rgba(197, 37, 37, 0.65);
+            border: 2px solid $red;
+            margin: 10px 20px 0 20px;
+            padding: 3px 10px;
+
+            p {
+                margin: 5px 0;
+            }
+        }
     }
 }
