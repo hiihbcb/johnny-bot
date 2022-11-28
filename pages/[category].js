@@ -21,6 +21,7 @@ export default function Category({ products, category }) {
             <div className={styles.data}>
               { product.corp_name && (<p>Corp: {product.corp_name}</p>) }
               { product.short_desc && (<p>Info: {product.short_desc}</p>) }
+              { product.type && (<p>Type: {product.type}</p>) }
               { product.requirements && (<p>Restrictions: {product.requirements}</p>) }
               { product.cost && (<p>Cost: {product.cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}eb</p>) }
               { product.subscription_cost && (<p>Cost p/m: {product.subscription_cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}eb</p>) }

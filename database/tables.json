@@ -36,6 +36,7 @@
         "name varchar(255) NOT NULL",
         "category bigint NOT NULL",
         "corp bigint NOT NULL",
+        "type varchar(255)",
         "requirements varchar(255)",
         "short_desc varchar(255)",
         "description varchar",
