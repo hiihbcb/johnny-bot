@@ -16,7 +16,7 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 //Require observer classes
-const App = require("./app")
+const App = require("./lib/bot")
 const messages = new App.Messages();
 global.database = new App.Database();
 const deployCommands = new App.DeployCommands();
