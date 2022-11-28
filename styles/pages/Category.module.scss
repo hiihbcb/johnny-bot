@@ -27,6 +27,9 @@
         margin: 20px 5px;
         flex: 1 1 350px;
 
+        display: flex;
+        flex-direction: column;
+
         .name {
             background: $red;
             margin: 0 20px;
@@ -47,6 +50,7 @@
             border: 2px solid $red;
             margin: 10px 20px 0 20px;
             padding: 3px 10px;
+            flex-grow: 1;
 
             p {
                 margin: 5px 0;
