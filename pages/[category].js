@@ -3,12 +3,13 @@ import { getProducts } from '../lib/web/apis'
 import styles from '../styles/pages/Category.module.scss'
 
 export default function Category({ products, category }) {
+  let categoryCapped = category.replace(/(^\w|\s\w)/g, m => m.toUpperCase())
 
   return (
     <div>
       <Head>
-        <title>{`${category} | Cyberpunk 2377 Nightmarket`}</title>
-        <meta name="description" content={`Cyberpunk 2377 store to buy ${category}`} />
+        <title>{`${categoryCapped} | Cyberpunk 2377 Nightmarket`}</title>
+        <meta name="description" content={`Cyberpunk 2377 store to buy ${categoryCapped}`} />
       </Head>
       <div style={{ backgroundImage: `url(/images/${category}.jpg)` }} className={styles.background}></div>
       <main className={styles.products}>
@@ -56,7 +57,7 @@ export async function getServerSideProps({ params }) {
   return {
     props: {
       products: data,
-      category: params.category.replace(/(^\w|\s\w)/g, m => m.toUpperCase())
+      category: params.category
     }
   }
 }
