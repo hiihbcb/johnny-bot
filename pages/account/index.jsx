@@ -8,7 +8,14 @@ import { getCharacter } from '../../lib/web/apis'
 export default function Account({ user, character }) {
 
   if (!character[0]) {
-    return <p>NO CHARACTER FOUND</p>
+    return (
+      <main className={styles.account}>
+        <div className={styles.title}>
+          <p>NO CHARACTER FOUND</p>
+        </div>
+          <Link href="/api/auth/logout" className={styles.logout}>LOGOUT</Link>
+      </main>
+    )
   }
 
   character = character[0]
