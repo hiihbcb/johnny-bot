@@ -1,0 +1,13 @@
+@import "../mixins";
+
+.admin {
+    background-color: $black;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    top: calc(0px + 80px);
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+}

@@ -1,0 +1,36 @@
+@import "../mixins";
+
+.button {
+    width: 100%;
+    text-align: center;
+    background-color: $red;
+    border: solid 2px $red;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $black;
+        border-color: $neon-green;
+        color: $neon-green;
+    }
+}
+
+.modal {
+    position: absolute;
+    top: 20%;
+    width: 100%;
+    max-width: 900px;
+    min-height: 200px;
+    background: $white;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    background-color: $trans-red;
+    border: solid 3px red;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
