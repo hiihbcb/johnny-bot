@@ -1,6 +1,6 @@
 {
   "name": "jonny-silverhand",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Jonny Silverhand",
   "main": "bot.js",
   "author": "HIIHBCB",
@@ -16,6 +16,7 @@
     "lint": "next lint --dir ."
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^2.2.1",
     "@discordjs/builders": "^0.6.0",
     "@discordjs/rest": "^0.1.0-canary.0",
     "discord-api-types": "^0.23.1",
