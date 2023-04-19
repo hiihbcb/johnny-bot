@@ -2,14 +2,15 @@
 
 .account {
     background-color: $black;
-    position: absolute;
+    position: fixed;
     z-index: -1;
     width: 100%;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    overflow: auto;
     top: calc(0px + 80px);
     bottom: 0;
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 40px;
 
     .title {
         display: flex;

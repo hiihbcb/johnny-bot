@@ -24,13 +24,85 @@
     min-height: 200px;
     background: $white;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -4%);
     border-radius: 5px;
-    background-color: $trans-red;
+    background-color: $modal-red;
     border: solid 3px red;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+
+    .close {
+        margin-top: 10px;
+        padding: 10px 20px;
+        font-size: 30px;
+        cursor: pointer;
+        background-color: $black;
+        border-radius: 15px;
+        color: $red;
+        border-style: solid;
+        border-color: $red;
+        border-width: 3px;
+
+        &:hover {
+            color: $lemon;
+            border-color: $lemon;
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 85%;
+        margin-top: 0px;
+        margin-bottom: 30px;
+
+        input,
+        textarea {
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 15px;
+            background-color: $black;
+            color: $lemon;
+            font-size: 20px;
+            font-family: 'Share Tech';
+            font-weight: bold;
+            border-radius: 10px;
+            padding: 5px;
+            border-style: solid;
+            border-color: $red;
+            border-width: 3px;
+
+            &:focus {
+                border-style: solid;
+                border-color: $neon-green;
+                color: $neon-green;
+                outline: none;
+            }
+        }
+
+        .submit {
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 10px;
+            background-color: $black;
+            border-radius: 15px;
+            color: $red;
+            font-family: 'Share Tech';
+            font-size: 30px;
+            cursor: pointer;
+            border-style: solid;
+            border-color: $red;
+            border-width: 3px;
+
+            &:hover {
+                color: $lemon;
+                border-color: $lemon;
+            }
+        }
+    }
 }

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import styles from '../../styles/pages/account/Index.module.scss'
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { getCharacter } from '../../lib/web/apis'
+import { Product } from '../../lib/components'
 
 export default function Account({ user, character }) {
 
@@ -31,6 +32,7 @@ export default function Account({ user, character }) {
         <div className={styles.title}>
           <p>{`NEURALINE AGENT: ${character.frontname}`}</p>
           <p>{`EUROBUCKS: ${character.eddies.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</p>
+          <Product/>
         </div>
           <Link href="/api/auth/logout" className={styles.logout}>LOGOUT</Link>
       </main>
