@@ -1,9 +1,24 @@
 import Head from 'next/head'
-import { getProducts } from '../lib/web/apis'
+import { getProducts, getPlayer } from '../lib/web/apis'
 import styles from '../styles/pages/Category.module.scss'
+import { getSession } from '@auth0/nextjs-auth0';
+import { Product } from '../lib/components'
+import { useRouter } from 'next/router'
 
-export default function Category({ products, category }) {
+var router
+
+export default function Category({ products, category, player }) {
+  router = useRouter()
+
   let categoryCapped = category.replace(/(^\w|\s\w)/g, m => m.toUpperCase())
+  var displayButton
+  if (player && player[0]) {
+    if (player[0].admin) {
+      displayButton = "Admin"
+    } else {
+      displayButton = "User"
+    }
+  }
 
   return (
     <div>
@@ -46,6 +61,9 @@ export default function Category({ products, category }) {
               { product.v_stats && (<p>Stats: {product.v_stats}</p>) }
               { product.description && (<p>Description: {product.description}</p>) }
             </div>
+            <div className={styles.button}>
+              { displayButton == "Admin" && <Product product={product} reload={reload}/>}
+            </div>
           </div>
         ))}
       </main>
@@ -53,12 +71,22 @@ export default function Category({ products, category }) {
   )
 }
 
-export async function getServerSideProps({ params }) {
-  let data = await getProducts(params.category)
+export async function getServerSideProps(context) {
+  let data = await getProducts(context.params.category)
+  let session = await getSession(context.req, context.res)
+  let player = null
+  if (session && session.user) {
+    player = await getPlayer(session.user.email)
+  }
   return {
     props: {
       products: data,
-      category: params.category
+      category: context.params.category,
+      player: player
     }
   }
+}
+
+function reload() {
+  router.reload(window.location.pathname)
 }

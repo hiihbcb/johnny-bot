@@ -1,0 +1,35 @@
+@import "../../mixins";
+
+.account {
+    background-color: $black;
+    position: fixed;
+    z-index: -1;
+    width: 100%;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    overflow: auto;
+    top: calc(0px + 80px);
+    bottom: 0;
+
+    .title {
+        display: flex;
+        flex-direction: column;
+
+        p {
+            color: $red;
+            font-size: 40px;
+            margin: 0;
+        }
+    }
+
+    .logout {
+        color: $red;
+        font-size: 40px;
+        display: flex;
+
+        &:hover {
+            color: $lemon;
+        }
+    }
+}

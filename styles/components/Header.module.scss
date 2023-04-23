@@ -29,7 +29,7 @@
         flex-direction: row;
         justify-content: flex-end;
         align-items: center;
-        margin-right: 5%;
+        margin-right: 2%;
 
         @include breakpoint(tablet) {
             display: none;
@@ -53,11 +53,40 @@
             }
 
             @include breakpoint(laptop) {
+                font-size: 17px;
                 padding: .3rem;
             }
 
             &:hover {
                 color: $lemon;
+            }
+        }
+
+        .account {
+            font-size: 30px;
+            text-transform: uppercase;
+            padding: 1rem;
+            margin: 0 .5rem;
+            color: $neon-green;
+
+            @include breakpoint(tv) {
+                font-size: 25px;
+                margin: 0;
+            }
+
+            @include breakpoint(desktop) {
+                font-size: 20px;
+                padding: .5rem;
+            }
+
+            @include breakpoint(laptop) {
+                font-size: 17px;
+                padding: .3rem;
+            }
+
+            &:hover {
+                color: $lemon;
+                cursor: pointer;
             }
         }
     }
@@ -114,6 +143,15 @@
             text-transform: uppercase;
             padding: .8rem;
             color: $red;
+            width: 100%;
+            text-align: center;
+        }
+
+        .account {
+            font-size: 30px;
+            text-transform: uppercase;
+            padding: .8rem;
+            color: $neon-green;
             width: 100%;
             text-align: center;
         }
