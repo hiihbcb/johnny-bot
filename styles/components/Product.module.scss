@@ -50,6 +50,11 @@
             color: $lemon;
             border-color: $lemon;
         }
+
+        @include breakpoint(tablet) {
+            font-size: 17px;
+            font-weight: bold;
+        }
     }
 
     form {
@@ -58,18 +63,23 @@
         width: 85%;
         margin-top: 0px;
         margin-bottom: 30px;
+        font-size: 15px;
+
+        @include breakpoint(tablet) {
+            font-size: 13px;
+        }
 
         input,
-        textarea {
+        textarea,
+        select {
             width: 90%;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: 15px;
+            margin-top: 5px;
             background-color: $black;
             color: $lemon;
-            font-size: 20px;
             font-family: 'Share Tech';
-            font-weight: bold;
             border-radius: 10px;
             padding: 5px;
             border-style: solid;
@@ -102,6 +112,11 @@
             &:hover {
                 color: $lemon;
                 border-color: $lemon;
+            }
+
+            @include breakpoint(tablet) {
+                font-size: 17px;
+                font-weight: bold;
             }
         }
     }

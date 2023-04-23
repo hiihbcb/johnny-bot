@@ -3,8 +3,13 @@ import { getProducts, getPlayer } from '../lib/web/apis'
 import styles from '../styles/pages/Category.module.scss'
 import { getSession } from '@auth0/nextjs-auth0';
 import { Product } from '../lib/components'
+import { useRouter } from 'next/router'
+
+var router
 
 export default function Category({ products, category, player }) {
+  router = useRouter()
+
   let categoryCapped = category.replace(/(^\w|\s\w)/g, m => m.toUpperCase())
   var displayButton
   if (player && player[0]) {
@@ -57,7 +62,7 @@ export default function Category({ products, category, player }) {
               { product.description && (<p>Description: {product.description}</p>) }
             </div>
             <div className={styles.button}>
-              { displayButton == "Admin" && <Product product={product}/>}
+              { displayButton == "Admin" && <Product product={product} reload={reload}/>}
             </div>
           </div>
         ))}
@@ -80,4 +85,8 @@ export async function getServerSideProps(context) {
       player: player
     }
   }
+}
+
+function reload() {
+  router.reload(window.location.pathname)
 }
