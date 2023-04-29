@@ -1,8 +1,8 @@
 import Head from 'next/head'
-import { getProducts, getPlayer } from '../lib/web/apis'
+import { getProducts, getPlayer, getCharacter } from '../lib/web/apis'
 import styles from '../styles/pages/Category.module.scss'
 import { getSession } from '@auth0/nextjs-auth0';
-import { Product } from '../lib/components'
+import { Product, Purchase } from '../lib/components'
 import { useRouter } from 'next/router'
 
 var router
@@ -63,6 +63,7 @@ export default function Category({ products, category, player }) {
             </div>
             <div className={styles.button}>
               { displayButton == "Admin" && <Product product={product} reload={reload}/>}
+              { displayButton == "User" && <Purchase email={player[0].email} eddies={product.cost} />}
             </div>
           </div>
         ))}
