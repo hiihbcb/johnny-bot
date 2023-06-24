@@ -3,10 +3,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../../styles/pages/account/Index.module.scss'
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
-import { getCharacter, getPlayer } from '../../lib/web/apis'
+import { getCharacter, getPlayer, getCategories, getCorps } from '../../lib/web/apis'
 import { Product } from '../../lib/components'
 
-export default function Account({ user, character, player }) {
+export default function Account({ user, character, player, categories, corps }) {
 
   if (!character[0]) {
     return (
@@ -41,7 +41,7 @@ export default function Account({ user, character, player }) {
         <div className={styles.title}>
           <p>{`NEURALINE AGENT: ${character.frontname}`}</p>
           <p>{`EUROBUCKS: ${character.eddies.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</p>
-          {displayButton == "Admin" && <Product/>}
+          {displayButton == "Admin" && <Product categories={categories} corps={corps}/>}
         </div>
           <Link href="/api/auth/logout" className={styles.logout}>LOGOUT</Link>
       </main>
@@ -55,10 +55,18 @@ export const getServerSideProps = withPageAuthRequired({
     const character = await getCharacter(session.user.email)
     const player = await getPlayer(session.user.email)
 
+    let categories, corps = null
+    if (player[0].admin) {
+      categories = await getCategories()
+      corps = await getCorps()
+    }
+
     return {props: {
       user: session.user,
       character: character,
-      player: player
+      player: player,
+      categories: categories,
+      corps: corps
     }};
   }
 });

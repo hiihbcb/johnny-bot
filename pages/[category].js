@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { getProducts, getPlayer, getCharacter } from '../lib/web/apis'
+import { getProducts, getPlayer, getCharacter, getCategories, getCorps } from '../lib/web/apis'
 import styles from '../styles/pages/Category.module.scss'
 import { getSession } from '@auth0/nextjs-auth0';
 import { Product, Purchase } from '../lib/components'
@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 
 var router
 
-export default function Category({ products, category, player }) {
+export default function Category({ products, category, categories, corps, character, player }) {
   router = useRouter()
 
   let categoryCapped = category.replace(/(^\w|\s\w)/g, m => m.toUpperCase())
@@ -62,8 +62,8 @@ export default function Category({ products, category, player }) {
               { product.description && (<p>Description: {product.description}</p>) }
             </div>
             <div className={styles.button}>
-              { displayButton == "Admin" && <Product product={product} reload={reload}/>}
-              { displayButton == "User" && <Purchase email={player[0].email} eddies={product.cost} />}
+              { displayButton == "Admin" && <Product categories={categories} corps={corps} product={product} reload={reload}/>}
+              { displayButton == "User" && <Purchase character={character} eddies={product.cost} />}
             </div>
           </div>
         ))}
@@ -73,17 +73,23 @@ export default function Category({ products, category, player }) {
 }
 
 export async function getServerSideProps(context) {
-  let data = await getProducts(context.params.category)
   let session = await getSession(context.req, context.res)
-  let player = null
+  let player, character = null
   if (session && session.user) {
     player = await getPlayer(session.user.email)
+    character = await getCharacter(session.user.email)
   }
+  let products = await getProducts(context.params.category)
+  let categories = await getCategories()
+  let corps = await getCorps()
   return {
     props: {
-      products: data,
+      products: products,
       category: context.params.category,
-      player: player
+      categories: categories,
+      corps: corps,
+      character: character ?? null,
+      player: player ?? null
     }
   }
 }

@@ -1,4 +1,4 @@
-import { getProducts, setProduct } from '../../lib/web/database'
+import { getProducts } from '../../lib/web/database'
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -7,10 +7,6 @@ export default async function handler(req, res) {
     switch (body.method) {
     case "getProduct":
       data = await getProducts(body.type)
-      res.status(200).json(data)
-      break;
-    case "setProduct":
-      data = await setProduct(body.product)
       res.status(200).json(data)
       break;
     }
